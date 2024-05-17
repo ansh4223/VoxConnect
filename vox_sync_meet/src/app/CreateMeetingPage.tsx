@@ -106,7 +106,10 @@ function StartTimeInput({ value, onChange }: StartTimeInputProps) {
       {active && (
         <label className="block space-y-1">
           <span className="font-medium">Start Time</span>
-          <input type="datetime-local" />
+          <input type="datetime-local" 
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full rounded-md border border-gray-300 p-2"/>
         </label>
       )}
     </div>
