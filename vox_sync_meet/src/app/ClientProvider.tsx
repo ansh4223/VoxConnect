@@ -6,6 +6,7 @@ import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import { Loader2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
+import { getToken } from "./actions";
 
 interface ClientProviderProps {
     children: React.ReactNode;
@@ -45,7 +46,26 @@ function useInitializeVideoClient() {
                 name: 'Guest ${id}'
             }
         }
-    },[])
+
+        const apiKey = process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY;
+
+        if(!apiKey){
+            throw new Error("Stream API key not set");
+        }
+
+        const client = new StreamVideoClient({
+            apiKey,
+            user: streamUser,
+            tokenProvider: user?.id ? getToken : undefined
+        });
+
+        setVideoClient(client);
+
+        return () => {
+            client.disconnectUser();
+            setVideoClient(null);
+        }
+    },[user?.id, user?.username, user?.imageUrl, userLoaded])
 
     return videoClient;
 }
