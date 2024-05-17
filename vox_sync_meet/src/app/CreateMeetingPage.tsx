@@ -6,8 +6,8 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 export default function CreateMeetingPage() {
-    const [descriptionInput, setDescriptionInput] = useState("");
-    const [startTimeInput, setStartTimeInput] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [startTimeInput, setStartTimeInput] = useState("");
 
   const client = useStreamVideoClient();
 
@@ -23,7 +23,10 @@ export default function CreateMeetingPage() {
       </h1>
       <div className="mx-auto w-80 space-y-6 rounded-md bg-slate-100 p-5">
         <h2 className="text-xl font-bold"> Create a new meeting</h2>
-        <DescriptionInput value={descriptionInput}  onChange={setDescriptionInput} />
+        <DescriptionInput
+          value={descriptionInput}
+          onChange={setDescriptionInput}
+        />
         <StartTimeInput value={startTimeInput} onChange={setStartTimeInput} />
       </div>
     </div>
@@ -67,44 +70,45 @@ function DescriptionInput({ value, onChange }: DescriptionInputProps) {
   );
 }
 
-
 interface StartTimeInputProps {
-    value: string,
-    onChange: (value: string) => void;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-function StartTimeInput({value, onChange}: StartTimeInputProps){
-    const [active, setActive] = useState(false);
+function StartTimeInput({ value, onChange }: StartTimeInputProps) {
+  const [active, setActive] = useState(false);
 
-    return <div className="space-y-2">
-        <div className="font-medium">Meeting start:</div>
-        <label className="flex items-center gap-1.5">
-            <input
-            type="radio"
-            checked={!active}
-            onChange={() => {
-                setActive(false);
-                onChange("")
-            }}
-            />
-            Start meeting immediately
+  return (
+    <div className="space-y-2">
+      <div className="font-medium">Meeting start:</div>
+      <label className="flex items-center gap-1.5">
+        <input
+          type="radio"
+          checked={!active}
+          onChange={() => {
+            setActive(false);
+            onChange("");
+          }}
+        />
+        Start meeting immediately
+      </label>
+      <label className="flex items-center gap-1.5">
+        <input
+          type="radio"
+          checked={active}
+          onChange={() => {
+            setActive(true);
+            onChange("");
+          }}
+        />
+        Start meeting at date/time
+      </label>
+      {active && (
+        <label className="block space-y-1">
+          <span className="font-medium">Start Time</span>
+          <input type="datetime-local" />
         </label>
-        <label className="flex items-center gap-1.5">
-            <input
-            type="radio"
-            checked={active}
-            onChange={() => {
-                setActive(true);
-                onChange("")
-            }}
-            />
-            Start meeting at date/time
-        </label>
-        {active && (
-            <label className="block space-y-1">
-                <span className="font-medium">Start Time</span>
-                <input type="datetime-local" />
-            </label>
-        )}
+      )}
     </div>
+  );
 }

@@ -19,16 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en">
-      <body className={inter.className}>
-        <ClientProvider>
-        <Navbar />
-        <main className="auto max-w-5xl px-3 py-6" >
-        {children}
-        </main>
-        </ClientProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <ClientProvider>
+            <Navbar />
+            <main className="auto max-w-5xl px-3 py-6">{children}</main>
+          </ClientProvider>
         </body>
-    </html>
+      </html>
     </ClerkProvider>
   );
 }
