@@ -4,7 +4,6 @@ import { useUser } from "@clerk/nextjs";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-
 export default function CreateMeetingPage() {
   const [descriptionInput, setDescriptionInput] = useState("");
   const [startTimeInput, setStartTimeInput] = useState("");
@@ -78,6 +77,10 @@ interface StartTimeInputProps {
 function StartTimeInput({ value, onChange }: StartTimeInputProps) {
   const [active, setActive] = useState(false);
 
+  const dateTimeLocalNow = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60_000,
+  ).toISOString().slice(0, 16);
+
   return (
     <div className="space-y-2">
       <div className="font-medium">Meeting start:</div>
@@ -98,7 +101,7 @@ function StartTimeInput({ value, onChange }: StartTimeInputProps) {
           checked={active}
           onChange={() => {
             setActive(true);
-            onChange("");
+            onChange(dateTimeLocalNow);
           }}
         />
         Start meeting at date/time
@@ -109,6 +112,7 @@ function StartTimeInput({ value, onChange }: StartTimeInputProps) {
           <input type="datetime-local" 
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          min={dateTimeLocalNow}
           className="w-full rounded-md border border-gray-300 p-2"/>
         </label>
       )}
