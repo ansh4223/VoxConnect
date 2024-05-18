@@ -7,6 +7,7 @@ import { useState } from "react";
 export default function CreateMeetingPage() {
   const [descriptionInput, setDescriptionInput] = useState("");
   const [startTimeInput, setStartTimeInput] = useState("");
+  const[participantsInput, setParticipantsInput] = useState("");
 
   const client = useStreamVideoClient();
 
@@ -27,6 +28,8 @@ export default function CreateMeetingPage() {
           onChange={setDescriptionInput}
         />
         <StartTimeInput value={startTimeInput} onChange={setStartTimeInput} />
+        <ParticipantsInput value={participantsInput} onChange={setParticipantsInput}
+        />
       </div>
     </div>
   );
@@ -118,4 +121,40 @@ function StartTimeInput({ value, onChange }: StartTimeInputProps) {
       )}
     </div>
   );
+}
+
+
+interface ParticipantsInputProps {
+  value: string,
+  onChange: (value: string) => void;
+}
+
+function ParticipantsInput({value,onChange}: ParticipantsInputProps){
+  const [active, setActive] = useState(false);
+
+  return <div className="space-y-2">
+    <div className="font-medium">Participants:</div>
+    <label className="flex items-center gap-1.5">
+    <input type="radio" checked={!active} onChange={() => {
+      setActive(false)
+      onChange("");
+    }}
+    />
+    Everone with the link can join
+    </label>
+    <label className="flex items-center gap-1.5">
+    <input type="radio" checked={active} onChange={() => {
+      setActive(true)}}
+    />
+    Private meeting
+    </label>
+    {active&& (
+      <label className="block space-y-1">
+        <span className="font-medium">Participent emails</span>
+        <textarea value={value} onChange={(e) => onChange(e.target.value)}
+        placeholder="Enter participants email addresses separated by comas"
+        className="w-full rounded-md border border-gray-300 p-2" />
+      </label>
+    )}
+  </div>
 }
