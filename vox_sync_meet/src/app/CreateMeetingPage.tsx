@@ -32,7 +32,7 @@ export default function CreateMeetingPage() {
       setCall(call);
 
     }catch(error){
-      console.log(error);
+      console.error(error);
       alert("Something went wrong. Please try again later.")
     }
   }
@@ -57,9 +57,10 @@ export default function CreateMeetingPage() {
           onChange={setParticipantsInput}
         />
         <button onClick={createMeeting}className="w-full">
-          Creat meeting
+          Create meeting
         </button>
       </div>
+      {call && <MeetingLink call={call} />}
     </div>
   );
 }
@@ -204,3 +205,14 @@ function ParticipantsInput({ value, onChange }: ParticipantsInputProps) {
 }
 
 
+interface MeetingLinkProps {
+  call: Call;
+}
+
+function MeetingLink({call}: MeetingLinkProps){
+  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${call.id}`
+
+  return <div className="text-center">
+    {meetingLink}
+  </div>;
+}
