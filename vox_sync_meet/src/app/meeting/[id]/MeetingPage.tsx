@@ -1,5 +1,7 @@
 "use client";
 
+import useLoadCall from "@/hooks/useLoadCall";
+import { useUser } from "@clerk/nextjs";
 import { Call, CallControls, SpeakerLayout, StreamCall, StreamTheme, useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -9,23 +11,15 @@ interface MeetingPageProps {
 }
 
 export default function MeetingPage({ id }: MeetingPageProps) {
-  const [call, setCall] = useState<Call>();
-  const client = useStreamVideoClient();
-  if (!client) {
+  const {user, isLoaded: userLoaded} = useUser();
+
+  const {call, callLoading} = useLoadCall(id);
+  
+  if (!userLoaded || callLoading) {
     return <Loader2 className="mx-auto animate-spin" />;
   }
   if (!call) {
-    return (
-      <button
-        onClick={async () => {
-          const call = client.call("private-meeting", id);
-          await call.join();
-          setCall(call);
-        }}
-      >
-        Join meeting
-      </button>
-    );
+    return <p className="text-center font-bold">Call not found</p>
   }
   return (
     <StreamCall call={call}>
