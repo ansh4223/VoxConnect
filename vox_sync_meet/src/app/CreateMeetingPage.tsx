@@ -245,14 +245,52 @@ function MeetingLink({ call }: MeetingLinkProps) {
             {meetingLink}
           </Link>
         </span>
-        <button title="Copy invitation link"
-        onClick={() => {
-          navigator.clipboard.writeText(meetingLink)
-          alert("Copied to clipboard");
-        }}>
-        <Copy />
+        <button
+          title="Copy invitation link"
+          onClick={() => {
+            navigator.clipboard.writeText(meetingLink);
+            alert("Copied to clipboard");
+          }}
+        >
+          <Copy />
         </button>
       </div>
+      <a
+        href={getMailToLink(
+          meetingLink,
+          call.state.startsAt,
+          call.state.custom.description,
+        )} 
+        target="_blank"
+        className="text-blue-500 hover:underline"
+      >
+        Send email invitation
+      </a>
     </div>
   );
+}
+
+function getMailToLink(
+  meetingLink: string,
+  startAt?: Date,
+  description?: string,
+) {
+  const startDateFormatted = startAt
+    ? startAt.toLocaleString("en-Us", {
+        dateStyle: "full",
+        timeStyle: "short",
+      })
+    : undefined;
+
+  const subject =
+    "Join my meeting" + (startDateFormatted ? ` at ${startDateFormatted}` : "");
+
+  const body =
+    `Join my meeting at ${meetingLink}.` +
+    (startDateFormatted
+      ? `\n\nThe meeting starts at ${startDateFormatted}.`
+      : "") +
+    (description ? `\n\nDescription: ${description}` : "");
+
+  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
