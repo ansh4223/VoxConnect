@@ -5,6 +5,7 @@ import { Call, MemberRequest, useStreamVideoClient } from "@stream-io/video-reac
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { getUserIds } from "./actions";
+import Button from "@/components/Button";
 export default function CreateMeetingPage() {
   const [descriptionInput, setDescriptionInput] = useState("");
   const [startTimeInput, setStartTimeInput] = useState("");
@@ -74,9 +75,9 @@ export default function CreateMeetingPage() {
           value={participantsInput}
           onChange={setParticipantsInput}
         />
-        <button onClick={createMeeting}className="w-full">
+        <Button onClick={createMeeting}className="w-full">
           Create meeting
-        </button>
+        </Button>
       </div>
       {call && <MeetingLink call={call} />}
     </div>
