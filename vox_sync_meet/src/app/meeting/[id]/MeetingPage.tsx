@@ -184,8 +184,8 @@ function UpcomingMeetingScreen(){
 function MeetingEndedScreen(){
   return <div className="flex flex-col items-center gap-6">
     <p className="font-bold">This meeting has ended</p>
-    <Link href="/" className={buttonClassName}>
+    <a href="/" className={buttonClassName}>
       Go home
-    </Link>
+    </a>
   </div>
 }
