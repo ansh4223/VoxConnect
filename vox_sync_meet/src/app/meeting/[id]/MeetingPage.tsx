@@ -47,7 +47,7 @@ export default function MeetingPage({ id }: MeetingPageProps) {
 
   return (
     <StreamCall call={call}>
-      <StreamTheme className="space-y-3">
+      <StreamTheme>
         <MeetingScreen />
       </StreamTheme>
     </StreamCall>
@@ -57,12 +57,12 @@ export default function MeetingPage({ id }: MeetingPageProps) {
 function MeetingScreen(){
   const {useCallEndedAt, useCallStartsAt} = useCallStateHooks();
 
-  const callEndAt = useCallEndedAt();
+  const callEndedAt = useCallEndedAt();
   const callStartsAt = useCallStartsAt();
 
   const callsIsInFuture = callStartsAt && new Date(callStartsAt) > new Date();
 
-  const callHasEnded = !!callEndAt;
+  const callHasEnded = !!callEndedAt;
 
   if(callHasEnded){
     return <MeetingEndedScreen />
@@ -85,11 +85,12 @@ function UpcomingMeetingScreen(){
         {call.state.startsAt?.toLocaleString()}
       </span>
     </p>
-    <p>
+    {call.state.custom.description && (<p>
       Description: {" "}
       <span className="font-bold">{call.state.custom.description}</span>
     </p>
-    <Link href="/" className={buttonClassName}>Go home</Link>
+    )}
+  <a href="/" className={buttonClassName}>Go home</a>
   </div>
 }
 
