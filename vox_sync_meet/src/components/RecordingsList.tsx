@@ -26,13 +26,13 @@ export default function Recordingslist() {
           .sort((a, b) => b.end_time.localeCompare(a.end_time))
           .map((recording) => (
             <li key={recording.url}>
-              <Link
+              <a
                 href={recording.url}
                 target="_blank"
                 className="hover:underline"
               >
                 {new Date(recording.end_time).toLocaleString()}
-              </Link>
+              </a>
             </li>
           ))}
       </ul>
