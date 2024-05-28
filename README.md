@@ -1,6 +1,7 @@
 # VoxSyncMeet
 VoxSyncMeet is a high-performance video calling app built with Next.js 14, React.js, Stream Video SDK, Tailwind CSS, and TypeScript, offering reliable calls on Stream's edge network.
-Features:
+
+## Features:
 - Fast, Reliable Calls: Minimal latency.
 - Private/Public Meetings: User roles and permissions.
 - Custom Settings: Adjust mic and camera.
